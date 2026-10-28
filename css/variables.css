@@ -1,0 +1,104 @@
+/* FatahCalc Pro — FatahTech design tokens. */
+:root {
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: 2.1rem;
+  --fs-3xl: clamp(2.1rem, 5vw, 3.7rem);
+
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4.5rem;
+
+  --r-xs: 6px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-pill: 999px;
+
+  --t-fast: 120ms cubic-bezier(.4, 0, .2, 1);
+  --t-mid: 220ms cubic-bezier(.4, 0, .2, 1);
+  --t-slow: 420ms cubic-bezier(.16, .84, .44, 1);
+
+  --wrap: 1240px;
+  --header-h: 76px;
+  --brand-1: #2563eb;
+  --brand-2: #06b6d4;
+  --brand-3: #ea580c;
+  --gradient-brand: linear-gradient(115deg, var(--brand-1), var(--brand-2));
+  --button-bg: #2563eb;
+  --button-text: #ffffff;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #020817;
+  --bg-tint: radial-gradient(1000px 580px at 90% -10%, rgba(37, 99, 235, .12), transparent 65%);
+  --surface: #0b1425;
+  --surface-2: #111c30;
+  --surface-3: #1e293b;
+  --border: #243249;
+  --border-soft: #172338;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-faint: #8b9bb2;
+  --primary: #60a5fa;
+  --primary-strong: #93c5fd;
+  --primary-soft: rgba(59, 130, 246, .14);
+  --on-primary: #020817;
+  --accent: #22d3ee;
+  --accent-soft: rgba(6, 182, 212, .12);
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --info: #60a5fa;
+  --ring: rgba(59, 130, 246, .4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .24);
+  --shadow-md: 0 12px 32px -14px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 28px 64px -24px rgba(0, 0, 0, .75);
+  --glass: rgba(2, 8, 23, .9);
+  --gradient-heading: linear-gradient(115deg, #60a5fa, #22d3ee);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f8fafc;
+  --bg-tint: radial-gradient(1000px 580px at 90% -10%, rgba(37, 99, 235, .06), transparent 65%);
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --border: #d4deea;
+  --border-soft: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #64748b;
+  --primary: #2563eb;
+  --primary-strong: #1d4ed8;
+  --primary-soft: rgba(37, 99, 235, .08);
+  --on-primary: #ffffff;
+  --accent: #0e7490;
+  --accent-soft: rgba(8, 145, 178, .08);
+  --success: #15803d;
+  --warning: #a16207;
+  --danger: #be123c;
+  --info: #1d4ed8;
+  --ring: rgba(37, 99, 235, .25);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04);
+  --shadow-md: 0 12px 28px -14px rgba(15, 23, 42, .2);
+  --shadow-lg: 0 28px 64px -24px rgba(15, 23, 42, .25);
+  --glass: rgba(255, 255, 255, .9);
+  --gradient-heading: linear-gradient(115deg, #1d4ed8, #0e7490);
+}
