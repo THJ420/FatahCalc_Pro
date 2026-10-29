@@ -1,9 +1,17 @@
-/* FatahCalc Pro — theme refinements. */
+/* ============================================================
+   FatahCalc Pro — theme refinements
+   ============================================================ */
+
+/* Supplied logos are light artwork for dark UI and dark artwork for light UI. */
 :root[data-theme='dark'] .brand-logo-light,
 :root[data-theme='light'] .brand-logo-dark { display: none; }
-/* Contrast backplates preserve the supplied white and navy logo artwork. */
-:root[data-theme='dark'] .brand-mark { background: #e2e8f0; }
+:root[data-theme='dark'] .brand-mark {
+  background: #e2e8f0;
+  border-color: rgba(255, 255, 255, .28);
+}
+:root[data-theme='light'] .brand-mark { background: #0f172a; }
 
+/* ---------------- Theme toggle ---------------- */
 #theme-toggle .icon-sun,
 #theme-toggle .icon-moon {
   position: absolute;
@@ -14,7 +22,6 @@
 :root[data-theme='light'] #theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(.4); }
 :root[data-theme='light'] #theme-toggle .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
 #theme-toggle { position: relative; overflow: hidden; }
-
 @media (max-width: 1100px) {
   #theme-toggle { overflow: visible; }
   #theme-toggle .icon-sun,
@@ -35,6 +42,7 @@
 }
 #theme-toggle:active::after { opacity: .22; }
 
+/* Theme switch transition batch */
 :root.theme-transition,
 :root.theme-transition *,
 :root.theme-transition *::before,
@@ -43,19 +51,51 @@
               color 300ms ease, fill 300ms ease, box-shadow 300ms ease !important;
 }
 
+/* ---------------- Category accents (decorative only) ---------------- */
+:root[data-theme='dark'] .cat-section[data-category='math'] { --cat-accent: #38bdf8; --cat-soft: rgba(56, 189, 248, .13); }
+:root[data-theme='dark'] .cat-section[data-category='financial'] { --cat-accent: #a78bfa; --cat-soft: rgba(167, 139, 250, .14); }
+:root[data-theme='dark'] .cat-section[data-category='health'] { --cat-accent: #34d399; --cat-soft: rgba(52, 211, 153, .12); }
+:root[data-theme='dark'] .cat-section[data-category='datetime'] { --cat-accent: #fbbf24; --cat-soft: rgba(251, 191, 36, .12); }
+:root[data-theme='dark'] .cat-section[data-category='grade'] { --cat-accent: #818cf8; --cat-soft: rgba(129, 140, 248, .14); }
+:root[data-theme='dark'] .cat-section[data-category='electrical'] { --cat-accent: #fb923c; --cat-soft: rgba(251, 146, 60, .12); }
+:root[data-theme='dark'] .cat-section[data-category='everyday'] { --cat-accent: #2dd4bf; --cat-soft: rgba(45, 212, 191, .12); }
+:root[data-theme='dark'] .cat-section[data-category='units'] { --cat-accent: #60a5fa; --cat-soft: rgba(96, 165, 250, .13); }
+:root[data-theme='dark'] .cat-section[data-category='number-system'] { --cat-accent: #22d3ee; --cat-soft: rgba(34, 211, 238, .12); }
+:root[data-theme='dark'] .cat-section[data-category='color'] { --cat-accent: #e879f9; --cat-soft: rgba(232, 121, 249, .12); }
+:root[data-theme='dark'] .cat-section[data-category='electrical-conv'] { --cat-accent: #f59e0b; --cat-soft: rgba(245, 158, 11, .12); }
+:root[data-theme='dark'] .cat-section[data-category='currency'] { --cat-accent: #a3e635; --cat-soft: rgba(163, 230, 53, .12); }
+
+:root[data-theme='light'] .cat-section[data-category='math'] { --cat-accent: #0369a1; --cat-soft: rgba(3, 105, 161, .08); }
+:root[data-theme='light'] .cat-section[data-category='financial'] { --cat-accent: #6d28d9; --cat-soft: rgba(109, 40, 217, .08); }
+:root[data-theme='light'] .cat-section[data-category='health'] { --cat-accent: #047857; --cat-soft: rgba(4, 120, 87, .08); }
+:root[data-theme='light'] .cat-section[data-category='datetime'] { --cat-accent: #a16207; --cat-soft: rgba(161, 98, 7, .08); }
+:root[data-theme='light'] .cat-section[data-category='grade'] { --cat-accent: #4338ca; --cat-soft: rgba(67, 56, 202, .08); }
+:root[data-theme='light'] .cat-section[data-category='electrical'] { --cat-accent: #c2410c; --cat-soft: rgba(194, 65, 12, .08); }
+:root[data-theme='light'] .cat-section[data-category='everyday'] { --cat-accent: #0f766e; --cat-soft: rgba(15, 118, 110, .08); }
+:root[data-theme='light'] .cat-section[data-category='units'] { --cat-accent: #1d4ed8; --cat-soft: rgba(29, 78, 216, .08); }
+:root[data-theme='light'] .cat-section[data-category='number-system'] { --cat-accent: #0e7490; --cat-soft: rgba(14, 116, 144, .08); }
+:root[data-theme='light'] .cat-section[data-category='color'] { --cat-accent: #a21caf; --cat-soft: rgba(162, 28, 175, .08); }
+:root[data-theme='light'] .cat-section[data-category='electrical-conv'] { --cat-accent: #b45309; --cat-soft: rgba(180, 83, 9, .08); }
+:root[data-theme='light'] .cat-section[data-category='currency'] { --cat-accent: #4d7c0f; --cat-soft: rgba(77, 124, 15, .08); }
+
+/* Dark card edges get a whisper of light; light cards stay crisp white. */
 :root[data-theme='dark'] .panel,
-:root[data-theme='dark'] .tool-card {
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, .025), transparent 40%);
+:root[data-theme='dark'] .tool-card,
+:root[data-theme='dark'] .lab-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .025), var(--shadow-sm);
 }
-.result-panel { background: linear-gradient(135deg, var(--primary-soft), var(--accent-soft)); }
+:root[data-theme='light'] .lab-inner,
+:root[data-theme='light'] .calc-display { background: #f8fafc; }
+
 ::selection { background: var(--primary); color: var(--on-primary); }
 
 * { scrollbar-width: thin; scrollbar-color: var(--surface-3) transparent; }
-*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb {
   background: var(--surface-3);
   border-radius: var(--r-pill);
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   background-clip: content-box;
 }
 *::-webkit-scrollbar-thumb:hover { background: var(--border); background-clip: content-box; }

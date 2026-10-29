@@ -30,6 +30,7 @@ export function categorySectionHTML(category, tools) {
         <i class="${category.icon} cat-icon" aria-hidden="true"></i>
         <h2>${escapeHTML(category.name)}</h2>
         <span class="count">${tools.length} tool${tools.length === 1 ? '' : 's'}</span>
+        ${category.blurb ? `<span class="section-blurb">${escapeHTML(category.blurb)}</span>` : ''}
       </div>
       ${toolGridHTML(tools)}
     </section>`;

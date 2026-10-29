@@ -150,15 +150,22 @@ export function renderToolPage(mod, meta) {
     /** Simple tab controller for tools with sub-modes. */
     tabs(onChange) {
       const buttons = qsa('.tab', root);
+      const panels = qsa('.tab-panel', root);
+      buttons.forEach((b) => b.setAttribute('role', 'tab'));
+      panels.forEach((p) => p.setAttribute('role', 'tabpanel'));
       on(root, 'click', '.tab', (e, btn) => {
-        buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
-        qsa('.tab-panel', root).forEach((p) => { p.hidden = p.dataset.panel !== btn.dataset.tab; });
+        buttons.forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-selected', String(b === btn));
+        });
+        panels.forEach((p) => { p.hidden = p.dataset.panel !== btn.dataset.tab; });
         if (onChange) onChange(btn.dataset.tab);
       });
       const active = qs('.tab.is-active', root) || buttons[0];
       if (active) {
         active.classList.add('is-active');
-        qsa('.tab-panel', root).forEach((p) => { p.hidden = p.dataset.panel !== active.dataset.tab; });
+        buttons.forEach((b) => b.setAttribute('aria-selected', String(b === active)));
+        panels.forEach((p) => { p.hidden = p.dataset.panel !== active.dataset.tab; });
         if (onChange) onChange(active.dataset.tab);
       }
     }

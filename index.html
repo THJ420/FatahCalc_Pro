@@ -7,7 +7,7 @@
 <meta name="author" content="FatahTech — https://fatahtech.com/">
 <meta name="application-name" content="FatahCalc Pro">
 <meta name="apple-mobile-web-app-title" content="FatahCalc Pro">
-<meta name="theme-color" content="#020817">
+<meta name="theme-color" content="#0A0E17">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FatahCalc Pro">
 <meta property="og:title" content="FatahCalc Pro — Every calculator and converter, in one modern place by FatahTech">
@@ -30,7 +30,7 @@
 <link rel="author" href="https://fatahtech.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
 <link rel="stylesheet" href="css/variables.css">
 <link rel="stylesheet" href="css/base.css">
@@ -38,13 +38,15 @@
 <link rel="stylesheet" href="css/themes.css">
 
 <script>
-  /* Keep the storage key so existing theme preferences survive the rebrand. */
+  /* Apply the stored theme before first paint; keep the storage key intact. */
   (function () {
     try {
       var stored = JSON.parse(localStorage.getItem('calcsuite:theme'));
       var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       var theme = (stored === 'light' || stored === 'dark') ? stored : (sysDark ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0A0E17' : '#F6F8FB');
     } catch (e) {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
@@ -57,8 +59,8 @@
   <div class="header-inner">
     <a class="brand" href="#/" aria-label="FatahCalc Pro home">
       <span class="brand-mark">
-        <img class="brand-logo brand-logo-light" src="logo_light_fav.png" width="36" height="36" alt="FatahTech">
-        <img class="brand-logo brand-logo-dark" src="logo_dark_no_txt.png" width="36" height="36" alt="FatahTech">
+        <img class="brand-logo brand-logo-light" src="logo_light_fav.png" width="34" height="34" alt="FatahTech">
+        <img class="brand-logo brand-logo-dark" src="logo_dark_no_txt.png" width="34" height="34" alt="FatahTech">
       </span>
       <span class="brand-wordmark"><span class="brand-text">FatahCalc <span class="brand-pro">Pro</span></span><span class="brand-byline">BY FATAHTECH</span></span>
     </a>
@@ -74,15 +76,17 @@
         <a href="#/favorites" data-nav="#/favorites"><i class="fa-solid fa-star nav-icon" aria-hidden="true"></i>Favorites</a>
         <a href="#/history" data-nav="#/history"><i class="fa-solid fa-clock-rotate-left nav-icon" aria-hidden="true"></i>History</a>
       </nav>
-      <div class="search-wrap" role="search">
+      <div class="search-wrap" role="search" aria-label="Global tool search">
         <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
         <input type="search" id="global-search" class="search-input" placeholder="Search tools…"
                autocomplete="off" aria-label="Search calculators and converters"
-               aria-keyshortcuts="Control+k Meta+k /" aria-expanded="false" aria-controls="search-results">
+               role="combobox" aria-autocomplete="list" aria-haspopup="listbox"
+               aria-keyshortcuts="Control+K Meta+K Slash" aria-expanded="false" aria-controls="search-results">
         <kbd class="search-kbd">Ctrl K</kbd>
         <div class="search-dropdown" id="search-results" role="listbox" hidden></div>
       </div>
       <div class="header-actions">
+        <span class="instrument-chip"><span class="status-dot"></span><span id="instrument-count">52 instruments</span></span>
         <button class="icon-btn action-btn" id="theme-toggle" type="button" aria-label="Toggle dark and light theme" title="Toggle theme">
           <i class="fa-solid fa-moon icon-moon" aria-hidden="true"></i>
           <i class="fa-solid fa-sun icon-sun" aria-hidden="true"></i>
@@ -102,10 +106,10 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a class="brand" href="https://fatahtech.com/" aria-label="Visit FatahTech">
+      <a class="brand" href="#/" aria-label="FatahCalc Pro home">
         <span class="brand-mark">
-          <img class="brand-logo brand-logo-light" src="logo_light_fav.png" width="36" height="36" alt="FatahTech">
-          <img class="brand-logo brand-logo-dark" src="logo_dark_no_txt.png" width="36" height="36" alt="FatahTech">
+          <img class="brand-logo brand-logo-light" src="logo_light_fav.png" width="29" height="29" alt="FatahTech">
+          <img class="brand-logo brand-logo-dark" src="logo_dark_no_txt.png" width="29" height="29" alt="FatahTech">
         </span>
         <strong>FatahCalc Pro</strong>
       </a>
@@ -118,8 +122,13 @@
       <a href="#/history">History</a>
       <a href="#/about">About</a>
       <a href="#/faq">FAQ</a>
-      <a href="https://fatahtech.com/" target="_blank" rel="noopener noreferrer">Explore FatahTech <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+      <a href="https://fatahtech.com/tools/freebies" target="_blank" rel="noopener noreferrer">Explore FatahTech <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
     </nav>
+    <div class="footer-status" role="group" aria-label="Application status">
+      <span><span class="status-dot"></span>Offline-ready</span>
+      <span><span class="status-dot status-dot--accent"></span>Local processing</span>
+      <span><span class="status-dot status-dot--violet"></span>No account needed</span>
+    </div>
     <p class="footer-note">© 2026 <a href="https://fatahtech.com/">FatahTech</a>. All rights reserved.</p>
   </div>
 </footer>

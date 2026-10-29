@@ -1,6 +1,6 @@
 // Tool modules are cached lazily when opened; the complete app shell is precached.
 const CACHE_PREFIX = 'fatahcalc-pro-';
-const CACHE = `${CACHE_PREFIX}v3`;
+const CACHE = `${CACHE_PREFIX}v9`;
 const SHELL = [
   './',
   './index.html',
@@ -19,6 +19,7 @@ const SHELL = [
   './js/utils/storage.js',
   './js/utils/validators.js',
   './js/views/home.js',
+  './js/views/homePreviews.js',
   './js/views/category.js',
   './js/views/library.js',
   './js/views/faq.js',

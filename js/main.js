@@ -42,7 +42,7 @@ class ThemeManager {
     }
     root.setAttribute('data-theme', theme);
     const meta = qs('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#020817' : '#f8fafc');
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#0A0E17' : '#F6F8FB');
     if (this.button) this.button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   }
 
@@ -125,6 +125,9 @@ class HeaderSearch {
 const outlet = qs('#main-content');
 new ThemeManager(qs('#theme-toggle'));
 const headerSearch = new HeaderSearch(qs('#global-search'), qs('#search-results'));
+
+const instrumentCount = qs('#instrument-count');
+if (instrumentCount) instrumentCount.textContent = `${TOOLS.length} instruments`;
 
 /* Mobile drawer — holds the nav links, search, theme toggle and FatahTech link. */
 const navPanel = qs('#nav-panel');
@@ -235,5 +238,5 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 }
 
 console.info(`%cFatahCalc Pro%c ${TOOLS.length} tools ready — vanilla JS, no frameworks.`,
-  'background:#2563eb;color:#ffffff;font-weight:700;padding:2px 6px;border-radius:4px',
+  'background:#38bdf8;color:#04202c;font-weight:700;padding:2px 6px;border-radius:4px',
   'color:#94a3b8');

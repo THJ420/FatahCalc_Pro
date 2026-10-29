@@ -6,9 +6,13 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#020817",
-  "theme_color": "#020817",
-  "categories": ["utilities", "productivity", "education"],
+  "background_color": "#0A0E17",
+  "theme_color": "#0A0E17",
+  "categories": [
+    "utilities",
+    "productivity",
+    "education"
+  ],
   "icons": [
     {
       "src": "Assets/Favicon/icon-192.png",
@@ -30,8 +34,17 @@
     }
   ],
   "shortcuts": [
-    { "name": "Currency Converter", "url": "./index.html#/converters/currency" },
-    { "name": "Percentage Calculator", "url": "./index.html#/calculators/percentage" },
-    { "name": "Unit Length Converter", "url": "./index.html#/converters/length" }
+    {
+      "name": "Currency Converter",
+      "url": "./index.html#/converters/currency"
+    },
+    {
+      "name": "Percentage Calculator",
+      "url": "./index.html#/calculators/percentage"
+    },
+    {
+      "name": "Unit Length Converter",
+      "url": "./index.html#/converters/length"
+    }
   ]
 }
