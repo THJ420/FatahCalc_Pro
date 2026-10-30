@@ -1,6 +1,6 @@
 // Tool modules are cached lazily when opened; the complete app shell is precached.
 const CACHE_PREFIX = 'fatahcalc-pro-';
-const CACHE = `${CACHE_PREFIX}v11`;
+const CACHE = `${CACHE_PREFIX}v12`;
 const SHELL = [
   './',
   './manifest.json',

@@ -125,7 +125,11 @@
   </header>
 
   <div id="route-outlet" data-route-outlet>
-    <p class="seo-app-link"><a class="btn btn-primary" href="/#/calculators/power-calculator">Open the interactive Power &amp; Energy Cost <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
+    <div class="seo-calc-loading" role="status" aria-live="polite">
+      <div class="seo-calc-skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="seo-calc-loading-label">Loading the interactive Power &amp; Energy Cost…</p>
+      <a class="btn btn-primary" href="/#/calculators/power-calculator">Open in the full app <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
   </div>
 
   <section class="seo-section" aria-labelledby="use-heading">

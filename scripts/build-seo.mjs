@@ -440,7 +440,11 @@ function toolPage(tool) {
   </header>
 
   <div id="route-outlet" data-route-outlet>
-    <p class="seo-app-link"><a class="btn btn-primary" href="/#/${tool.group}/${tool.id}">Open the interactive ${escapeHTML(tool.name)} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
+    <div class="seo-calc-loading" role="status" aria-live="polite">
+      <div class="seo-calc-skeleton" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="seo-calc-loading-label">Loading the interactive ${escapeHTML(tool.name)}…</p>
+      <a class="btn btn-primary" href="/#/${tool.group}/${tool.id}">Open in the full app <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
   </div>
 
   <section class="seo-section" aria-labelledby="use-heading">
