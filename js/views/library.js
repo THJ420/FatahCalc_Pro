@@ -6,6 +6,8 @@ import { getFavorites, getHistory, clearHistory } from '../utils/storage.js';
 import { getToolByKey, CATEGORIES, TOOL_COUNT_LABEL } from '../tools.js';
 import { toolGridHTML, emptyStateHTML, wireFavStars } from './shared.js';
 import { fmtRelative } from '../utils/format.js';
+import { applySeo, noindexSeo } from '../utils/seo.js';
+import { PAGE_SEO } from '../data/seo.js';
 
 export function renderFavorites() {
   const favorites = getFavorites().map(getToolByKey).filter(Boolean);
@@ -23,7 +25,10 @@ export function renderFavorites() {
       : emptyStateHTML('No favorites yet', 'Hit the ☆ on any tool card or tool page to pin it here.', 'fa-regular fa-star')}
   `;
   wireFavStars(view);
-  document.title = 'Favorites — FatahCalc Pro by FatahTech';
+  noindexSeo({
+    title: 'Favorites — FatahCalc Pro',
+    description: 'Your pinned FatahCalc Pro tools, stored privately in this browser.'
+  });
   return view;
 }
 
@@ -58,7 +63,10 @@ export function renderHistory() {
   };
 
   paint();
-  document.title = 'History — FatahCalc Pro by FatahTech';
+  noindexSeo({
+    title: 'Calculation History — FatahCalc Pro',
+    description: 'Your recent FatahCalc Pro results, stored privately in this browser.'
+  });
   return view;
 }
 
@@ -98,7 +106,11 @@ export function renderAbout() {
       <kbd>g</kbd> then <kbd>h</kbd> go home · <kbd>Shift + D</kbd> toggle theme.</p>
     </section>
   `;
-  document.title = 'About — FatahCalc Pro by FatahTech';
+  applySeo({
+    title: PAGE_SEO.about.title,
+    description: PAGE_SEO.about.description,
+    path: '/about'
+  });
   return view;
 }
 
@@ -108,6 +120,9 @@ export function renderNotFound(path) {
     ${emptyStateHTML('Tool not found', `Nothing is mapped to <code>${escapeHTML(path)}</code> yet.`, 'fa-solid fa-compass')}
     <div class="text-center mt-4"><a class="btn btn-primary" href="#/">Back to all tools</a></div>
   `;
-  document.title = 'Not found — FatahCalc Pro by FatahTech';
+  noindexSeo({
+    title: 'Page not found — FatahCalc Pro',
+    description: 'The requested FatahCalc Pro page could not be found.'
+  });
   return view;
 }

@@ -29,6 +29,7 @@ By [FatahTech](https://fatahtech.com/).
 - [🛠️ Built With](#️-built-with)
 - [🧰 Full Tool List](#-full-tool-list)
 - [🌗 Theming](#-theming)
+- [🔎 Search Visibility & SEO](#-search-visibility--seo)
 - [🚀 Getting Started](#-getting-started)
 - [📁 Project Structure](#-project-structure)
 - [🧠 Advanced JS Concepts Showcased](#-advanced-js-concepts-showcased)
@@ -182,23 +183,39 @@ FatahCalc Pro ships with a full **dark and light theme system** built on CSS cus
 2. Toggleable from the header at any time (or with `Shift + D`)
 3. Persisted automatically for your next visit
 
-The supplied root logos are `logo_light_fav.png` (light-mode branding and primary favicon) and `logo_dark_no_txt.png` (dark-mode branding). Contrast backplates keep both variants legible. Square 192px/512px and maskable PWA icons in `Assets/Favicon/` are derived from the supplied artwork.
+The supplied source logos are `logo_light_fav.png` (light artwork) and `logo_dark_no_txt.png` (dark artwork). The header and footer use trimmed, optimized 96 px versions in `Assets/Logo/`, while the square 64/192/512 px and maskable PWA icons live in `Assets/Favicon/`.
 
 The legacy `calcsuite:` storage namespace is deliberately retained to preserve existing user data, including theme preferences, favorites, history, saved custom units and cached currency rates on the same browser and origin.
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=rect&color=6591ee&height=2&section=header"/>
 
+## 🔎 Search Visibility & SEO
+
+Every calculator now has a prerendered, crawlable clean URL such as `https://calc.fatahtech.com/percentage-calculator`. The same page boots the interactive calculator with JavaScript, and still shows its H1, explanation, formulas, FAQs and related links without it. Hash routes in the app canonicalize to those clean URLs.
+
+- **52 tool pages + 12 category pages + 2 hubs + FAQ + About**, all with unique titles, 150–160 character descriptions, canonical URLs, Open Graph and Twitter cards.
+- **JSON-LD** — `Organization`, `WebSite`, `WebApplication` (free offer, `isAccessibleForFree`), `ItemPage`, `CollectionPage`, `BreadcrumbList` and `FAQPage`.
+- **Crawl files** — `robots.txt` (including AI crawler allowances) and a 69-URL `sitemap.xml` are generated at the repository root.
+- **Hosting** — `vercel.json` enables clean URLs for the flat `.html` output.
+- **Source of truth** — [js/data/seo.js](js/data/seo.js) holds slugs, titles and descriptions; [scripts/seo/content.mjs](scripts/seo/content.mjs) holds intros and FAQs. The build reuses each tool module's existing `how` explanation.
+
+```bash
+npm run build       # regenerate every clean-URL page, sitemap.xml and robots.txt
+npm run verify:seo  # audit titles, descriptions, canonicals, H1s, schema and sitemap
+npm run serve       # local clean-URL preview on http://127.0.0.1:8000
+```
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&color=6591ee&height=2&section=header"/>
+
 ## 🚀 Getting Started
 
-FatahCalc Pro is 100% static – no build step required. Because it uses ES Modules and `fetch`, it needs to be served over `http(s)`, not opened directly as a `file://`.
+The app shell is 100% static. Prerendering the search pages and crawl files uses a zero-dependency Node script (`npm run build`); the generated HTML is committed, so a plain static host can serve the repository as-is. Because the app uses ES Modules and `fetch`, it must be served over `http(s)`, not opened directly as a `file://`.
 
 ### Prerequisites
 - A modern browser (Chrome, Opera, Brave, Firefox, Edge)
-- Any lightweight local server (Node's `serve`, VS Code's Live Server, or Python's built-in server)
+- Node.js 20+ for the build/verification scripts, or any static server for the app
 
 ### Local Project Folder
-
-Use the existing project folder; no clone or build step is needed. In Git Bash:
 
 ```bash
 cd "I:/FatahCalc Pro"
@@ -207,14 +224,12 @@ cd "I:/FatahCalc Pro"
 ### Running Locally
 
 ```bash
-# Option 1: using npx serve
-npx serve .
-
-# Option 2: using Python
-python3 -m http.server 8000
+npm install         # no runtime dependencies; creates the lockfile if needed
+npm run build       # generate clean-URL pages, sitemap.xml and robots.txt
+npm run serve       # http://127.0.0.1:8000 with clean URLs emulated
 ```
 
-Then open `http://localhost:PORT` in your browser. 🎉
+Alternatively use any static server (`npx serve .` or `python3 -m http.server 8000`), then open `http://localhost:PORT`. 🎉
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=rect&color=6591ee&height=2&section=header"/>
 
@@ -228,6 +243,7 @@ FatahCalc Pro/
 ├── css/
 │   ├── base.css
 │   ├── components.css
+│   ├── seo.css
 │   ├── themes.css
 │   └── variables.css
 │
@@ -306,8 +322,11 @@ FatahCalc Pro/
 │   ├── utils/
 │   │   ├── dom.js
 │   │   ├── format.js
+│   │   ├── seo.js
 │   │   ├── storage.js
 │   │   └── validators.js
+│   ├── data/
+│   │   └── seo.js
 │   ├── views/
 │   │   ├── category.js
 │   │   ├── faq.js
@@ -318,16 +337,31 @@ FatahCalc Pro/
 │   ├── router.js
 │   └── tools.js
 │
+├── scripts/
+│   ├── build-seo.mjs
+│   ├── generate_assets.py
+│   ├── serve.mjs
+│   ├── verify-seo.mjs
+│   └── seo/
+│       └── content.mjs
+│
+├── *.html                  # index.html + 68 generated clean-URL pages
+├── sitemap.xml
+├── robots.txt
+├── vercel.json
+├── package.json
 ├── sw.js
 ├── manifest.json
-├── logo_light_fav.png
-├── logo_dark_no_txt.png
+├── logo_light_fav.png      # original brand artwork (source)
+├── logo_dark_no_txt.png    # original brand artwork (source)
 │
 ├── LICENSE
 │
 ├── Assets/
 │   ├── Banner/
-│   └── Favicon/
+│   ├── Favicon/
+│   ├── Logo/
+│   └── og/
 │
 └── README.md
 ```

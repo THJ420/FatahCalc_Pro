@@ -1,8 +1,9 @@
 {
+  "id": "/",
   "name": "FatahCalc Pro",
   "short_name": "FatahCalc Pro",
-  "description": "Every calculator and converter, in one modern place by FatahTech. 50+ free tools, available offline after opening. https://fatahtech.com/",
-  "start_url": "./index.html#/",
+  "description": "52 free calculators and converters by FatahTech. Instant results, private browser-side math and offline PWA support. https://calc.fatahtech.com/",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -35,16 +36,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Currency Converter",
-      "url": "./index.html#/converters/currency"
-    },
-    {
       "name": "Percentage Calculator",
-      "url": "./index.html#/calculators/percentage"
+      "url": "./percentage-calculator"
     },
     {
-      "name": "Unit Length Converter",
-      "url": "./index.html#/converters/length"
+      "name": "Currency Converter",
+      "url": "./currency-converter"
+    },
+    {
+      "name": "Length Converter",
+      "url": "./length-converter"
     }
   ]
 }

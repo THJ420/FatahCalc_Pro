@@ -6,6 +6,8 @@ import { createEl, qs, qsa, on, debounce, escapeHTML } from '../utils/dom.js';
 import { getFavorites, getRecents } from '../utils/storage.js';
 import { categorySectionHTML, toolGridHTML, emptyStateHTML, wireFavStars } from './shared.js';
 import { mountPreviewLab } from './homePreviews.js';
+import { applySeo } from '../utils/seo.js';
+import { ROOT_SEO } from '../data/seo.js';
 
 const chipHTML = (filter, label, count, active = false) => `
   <button class="chip ${active ? 'is-active' : ''}" type="button" data-filter="${filter}" aria-pressed="${active}">
@@ -20,12 +22,12 @@ export function renderHome() {
   view.innerHTML = `
     <section class="hero" id="hero-section">
       <div class="hero-copy">
-        <span class="hero-eyebrow"><span class="status-dot status-dot--accent" aria-hidden="true"></span> Swiss modular computation engine</span>
-        <h1>Precision tools.<br><em>Directly tactile.</em></h1>
+        <span class="hero-eyebrow"><span class="status-dot status-dot--accent" aria-hidden="true"></span> Precision tools · Directly tactile</span>
+        <h1>Free All-in-One <br><em>Online Calculator Suite</em></h1>
       </div>
       <p class="hero-lead">
-        ${TOOLS.length} local-first tools with zero trackers and tactile modular controls.
-        Results land as you type, and everything runs privately in your browser.
+        ${TOOLS.length} instant calculators and converters across ${CATEGORIES.length} categories.
+        100% free, zero ads, private browser-side math — and offline-ready as a PWA.
       </p>
     </section>
 
@@ -147,6 +149,6 @@ export function renderHome() {
 
   wireFavStars(view);
   view.__cleanup = () => lab.destroy();
-  document.title = 'FatahCalc Pro — Every calculator and converter, in one modern place by FatahTech';
+  applySeo({ title: ROOT_SEO.title, description: ROOT_SEO.description, path: '/' });
   return view;
 }

@@ -4,6 +4,8 @@
 import { getCategories, TOOLS, countTools } from '../tools.js';
 import { createEl, qs, qsa, on, debounce } from '../utils/dom.js';
 import { categorySectionHTML, emptyStateHTML, wireFavStars } from './shared.js';
+import { applySeo } from '../utils/seo.js';
+import { GROUP_SEO } from '../data/seo.js';
 
 const COPY = {
   calculators: {
@@ -62,6 +64,10 @@ export function renderCategoryIndex(group) {
   on(input, 'input', debounce(filter, 130));
 
   wireFavStars(view);
-  document.title = `${copy.title} — FatahCalc Pro by FatahTech`;
+  applySeo({
+    title: GROUP_SEO[group].title,
+    description: GROUP_SEO[group].description,
+    path: `/${GROUP_SEO[group].slug}`
+  });
   return view;
 }

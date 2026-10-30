@@ -1,21 +1,27 @@
 // Tool modules are cached lazily when opened; the complete app shell is precached.
 const CACHE_PREFIX = 'fatahcalc-pro-';
-const CACHE = `${CACHE_PREFIX}v9`;
+const CACHE = `${CACHE_PREFIX}v11`;
 const SHELL = [
   './',
-  './index.html',
   './manifest.json',
-  './logo_light_fav.png',
-  './logo_dark_no_txt.png',
+  './Assets/Logo/logo-light-96.png',
+  './Assets/Logo/logo-dark-96.png',
+  './Assets/Favicon/favicon-64.png',
+  './Assets/Favicon/icon-192.png',
+  './Assets/Favicon/icon-512.png',
+  './Assets/Favicon/icon-maskable.png',
   './css/variables.css',
   './css/base.css',
   './css/components.css',
   './css/themes.css',
+  './css/seo.css',
   './js/main.js',
   './js/router.js',
   './js/tools.js',
+  './js/data/seo.js',
   './js/utils/dom.js',
   './js/utils/format.js',
+  './js/utils/seo.js',
   './js/utils/storage.js',
   './js/utils/validators.js',
   './js/views/home.js',
@@ -27,10 +33,7 @@ const SHELL = [
   './js/core/toolPage.js',
   './js/core/unitTool.js',
   './js/core/UnitConverter.js',
-  './js/core/Fraction.js',
-  './Assets/Favicon/icon-192.png',
-  './Assets/Favicon/icon-512.png',
-  './Assets/Favicon/icon-maskable.png'
+  './js/core/Fraction.js'
 ];
 
 self.addEventListener('install', (event) => {

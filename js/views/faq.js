@@ -8,6 +8,8 @@
 import { createEl, qs, qsa, on, debounce } from '../utils/dom.js';
 import { TOOLS, CATEGORIES, TOOL_COUNT_LABEL } from '../tools.js';
 import { emptyStateHTML } from './shared.js';
+import { applySeo } from '../utils/seo.js';
+import { PAGE_SEO } from '../data/seo.js';
 
 const calcCount = TOOLS.filter((t) => t.group === 'calculators').length;
 const convCount = TOOLS.filter((t) => t.group === 'converters').length;
@@ -312,6 +314,10 @@ export function renderFAQ() {
     setToggleLabel(!expanded);
   });
 
-  document.title = 'FAQ — FatahCalc Pro by FatahTech';
+  applySeo({
+    title: PAGE_SEO.faq.title,
+    description: PAGE_SEO.faq.description,
+    path: '/faq'
+  });
   return view;
 }

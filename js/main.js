@@ -122,7 +122,11 @@ class HeaderSearch {
 /* ------------------------------------------------------------------ */
 /* Boot                                                                */
 /* ------------------------------------------------------------------ */
-const outlet = qs('#main-content');
+const bootRaw = document.body.dataset.boot || '';
+const bootPath = bootRaw ? `/${bootRaw.replace(/^\/+/, '')}` : '';
+const isBootPage = Boolean(bootPath);
+const isStaticPage = document.body.hasAttribute('data-static');
+const outlet = qs('[data-route-outlet]') || qs('#main-content');
 new ThemeManager(qs('#theme-toggle'));
 const headerSearch = new HeaderSearch(qs('#global-search'), qs('#search-results'));
 
@@ -198,7 +202,7 @@ async function toolRoute(group, id) {
   if (!meta) return renderNotFound(`#/${group}/${id}`);
   try {
     const module = await meta.load();
-    return renderToolPage(module.default, meta);
+    return renderToolPage(module.default, meta, { embedded: isBootPage });
   } catch (error) {
     console.error(`[FatahCalc Pro] module failed for ${group}/${id}`, error);
     const fallback = document.createElement('div');
@@ -228,12 +232,22 @@ router
   .add('/converters/:id', ({ id }) => toolRoute('converters', id))
   .notFound(({ path }) => renderNotFound(path));
 
-router.start();
+/*
+ * Prerendered clean-URL pages keep their document until the reader chooses a
+ * hash route; at that point a full load hands over to the single-page suite.
+ */
+if (isStaticPage || isBootPage) {
+  window.addEventListener('hashchange', () => {
+    if (location.hash) location.replace(`/${location.hash}`);
+  });
+}
+
+if (!isStaticPage || isBootPage) router.start(bootPath || undefined);
 
 /* Progressive enhancement: offline support when served over http(s). */
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => { /* offline support is optional */ });
+    navigator.serviceWorker.register('/sw.js').catch(() => { /* offline support is optional */ });
   });
 }
 

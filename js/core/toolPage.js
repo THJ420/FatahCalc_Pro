@@ -17,16 +17,38 @@
 import { createEl, qs, qsa, on, escapeHTML, debounce } from '../utils/dom.js';
 import { isFavorite, toggleFavorite, pushHistory, pushRecent } from '../utils/storage.js';
 import { TOOLS } from '../tools.js';
+import { applySeo } from '../utils/seo.js';
+import { toolSeo, toolUrl } from '../data/seo.js';
 
-export function renderToolPage(mod, meta) {
+export function renderToolPage(mod, meta, { embedded = false } = {}) {
   pushRecent(`${meta.group}/${meta.id}`);
 
   const bodyHTML = typeof mod.body === 'function' ? mod.body(meta) : (mod.body || '');
   const fav = isFavorite(`${meta.group}/${meta.id}`);
   const groupLabel = meta.group === 'calculators' ? 'Calculators' : 'Converters';
+  const seo = toolSeo(meta.group, meta.id);
 
-  const view = createEl('article', { class: 'route-view tool-page' });
-  view.innerHTML = `
+  const resultHTML = mod.noResult ? '' : `
+    <section class="result-panel" id="tool-result" aria-live="polite">
+      <div class="result-main">
+        <span class="result-label">${escapeHTML(mod.resultLabel || 'Result')}</span>
+        <output class="result-value" id="result-value">—</output>
+        <p class="result-sub" id="result-sub"></p>
+      </div>
+      <button class="btn btn-primary js-copy-result" type="button">
+        <i class="fa-regular fa-copy" aria-hidden="true"></i> Copy result
+      </button>
+    </section>`;
+
+  const view = createEl('article', { class: `route-view tool-page${embedded ? ' tool-page--embedded' : ''}` });
+
+  if (embedded) {
+    // The clean URL already supplies the breadcrumb, H1 and explanatory copy.
+    view.innerHTML = `
+      <section class="panel tool-body" id="tool-body">${bodyHTML}</section>
+      ${resultHTML}`;
+  } else {
+    view.innerHTML = `
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="#/">Home</a><span aria-hidden="true">›</span>
       <a href="#/${meta.group}">${groupLabel}</a><span aria-hidden="true">›</span>
@@ -50,17 +72,7 @@ export function renderToolPage(mod, meta) {
 
     <section class="panel tool-body" id="tool-body">${bodyHTML}</section>
 
-    ${mod.noResult ? '' : `
-    <section class="result-panel" id="tool-result" aria-live="polite">
-      <div class="result-main">
-        <span class="result-label">${escapeHTML(mod.resultLabel || 'Result')}</span>
-        <output class="result-value" id="result-value">—</output>
-        <p class="result-sub" id="result-sub"></p>
-      </div>
-      <button class="btn btn-primary js-copy-result" type="button">
-        <i class="fa-regular fa-copy" aria-hidden="true"></i> Copy result
-      </button>
-    </section>`}
+    ${resultHTML}
 
     <details class="how-it-works">
       <summary><i class="fa-solid fa-lightbulb" aria-hidden="true" style="color:var(--accent)"></i> How this tool works</summary>
@@ -69,26 +81,34 @@ export function renderToolPage(mod, meta) {
 
     <section class="related" id="related-tools"></section>
   `;
+  }
 
   /* ---------- favorite + share ---------- */
   const key = `${meta.group}/${meta.id}`;
-  on(qs('.js-fav', view), 'click', (e) => {
-    const nowFav = toggleFavorite(key);
-    const btn = e.currentTarget;
-    btn.setAttribute('aria-pressed', String(nowFav));
-    btn.title = nowFav ? 'Remove from favorites' : 'Save to favorites';
-    qs('i', btn).className = `${nowFav ? 'fa-solid' : 'fa-regular'} fa-star`;
-    qs('i', btn).style.color = nowFav ? 'var(--warning)' : '';
-    import('../utils/dom.js').then(({ toast }) => toast(nowFav ? 'Added to favorites' : 'Removed from favorites', 'fa-solid fa-star'));
-  });
+  const favBtn = qs('.js-fav', view);
+  if (favBtn) {
+    on(favBtn, 'click', (e) => {
+      const nowFav = toggleFavorite(key);
+      const btn = e.currentTarget;
+      btn.setAttribute('aria-pressed', String(nowFav));
+      btn.title = nowFav ? 'Remove from favorites' : 'Save to favorites';
+      qs('i', btn).className = `${nowFav ? 'fa-solid' : 'fa-regular'} fa-star`;
+      qs('i', btn).style.color = nowFav ? 'var(--warning)' : '';
+      import('../utils/dom.js').then(({ toast }) => toast(nowFav ? 'Added to favorites' : 'Removed from favorites', 'fa-solid fa-star'));
+    });
+  }
 
-  qs('.js-share', view).dataset.copy = `${location.origin}${location.pathname}${meta.path}`;
-  qs('.js-share', view).dataset.copyMessage = 'Link copied';
+  const shareBtn = qs('.js-share', view);
+  if (shareBtn) {
+    shareBtn.dataset.copy = seo ? toolUrl(meta.group, meta.id) : `${location.origin}${location.pathname}${meta.path}`;
+    shareBtn.dataset.copyMessage = 'Link copied';
+  }
 
   /* ---------- related tools ---------- */
+  const relatedEl = qs('#related-tools', view);
   const related = TOOLS.filter((t) => t.categoryId === meta.categoryId && t.id !== meta.id).slice(0, 4);
-  if (related.length) {
-    qs('#related-tools', view).innerHTML = `
+  if (relatedEl && related.length) {
+    relatedEl.innerHTML = `
       <div class="section-head"><h2>Related ${escapeHTML(meta.categoryName.toLowerCase())} tools</h2></div>
       <div class="tool-grid">
         ${related.map((t) => `
@@ -174,6 +194,19 @@ export function renderToolPage(mod, meta) {
   const cleanup = mod.init ? mod.init(root, ctx) : null;
   if (typeof cleanup === 'function') view.__cleanup = cleanup;
 
-  document.title = `${meta.name} — FatahCalc Pro by FatahTech`;
+  if (seo) {
+    applySeo({
+      title: seo.title,
+      description: seo.description,
+      canonical: toolUrl(meta.group, meta.id),
+      type: 'website'
+    });
+  } else {
+    applySeo({
+      title: `${meta.name} — FatahCalc Pro by FatahTech`,
+      description: meta.desc,
+      path: '/'
+    });
+  }
   return view;
 }

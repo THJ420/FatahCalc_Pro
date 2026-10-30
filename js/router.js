@@ -58,14 +58,20 @@ export class Router {
     return null;
   }
 
-  start() {
+  start(initialPath = null) {
     window.addEventListener('hashchange', () => this.#resolve());
-    if (!location.hash) location.replace('#/');
+    if (!location.hash) {
+      if (initialPath) {
+        this.#resolve(initialPath);
+        return;
+      }
+      location.replace('#/');
+    }
     this.#resolve();
   }
 
-  async #resolve() {
-    const path = Router.path();
+  async #resolve(pathOverride = null) {
+    const path = pathOverride || Router.path();
     const token = Symbol('nav');
     this.#current = token;
 

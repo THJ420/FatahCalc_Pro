@@ -1,0 +1,12 @@
+{
+  "name": "fatahcalc-pro",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FatahCalc Pro — 52 free calculators and converters by FatahTech.",
+  "scripts": {
+    "build": "node scripts/build-seo.mjs",
+    "verify:seo": "node scripts/verify-seo.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}
